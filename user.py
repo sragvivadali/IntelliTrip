@@ -7,7 +7,7 @@ class User:
         "TypicalTraveller" : False,
         "SocialMediaCrazy" : False,
         "LoveBirds" : False,
-        "Hippie" : False,
+        "NatureLover" : False,
         "Foodie" : False,
         "NightOwl" : False
     }

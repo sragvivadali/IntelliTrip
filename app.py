@@ -45,16 +45,22 @@ users = []
 
 user1 = {
 	"email": "user1@gmail.com",
+    "name": "User1",
+    "prefs": ["cityhustler", "socialmediacrazy", "lovebirds", "naturelover"],
 	"password": "test123"
 }
 
 user2 = {
 	"email": "user2@gmail.com",
+    "name": "User2",
+    "prefs": ["cityhustler", "socialmediacrazy"],
 	"password": "test123"
 }
 
 user3 = {
 	"email": "user3@gmail.com",
+    "name": "User3",
+    "prefs": ["cityhustler", "socialmediacrazy"],
 	"password": "test123"
 }
 
@@ -114,6 +120,7 @@ def signup():
 
         newUser = {
             "email": request.form["em"],
+            "name": request.form["nm"],
             "password": request.form["pw"]
         }
 
@@ -125,6 +132,28 @@ def signup():
         
         if not accountExists:
             print("Registration successful!")
+            newUserPrefs = []
+            if request.form.get("thriller") != None:
+                newUserPrefs.append("thriller")
+            if request.form.get("invisiblehopper") != None:
+                newUserPrefs.append("invisiblehopper")
+            if request.form.get("cityhustler") != None:
+                newUserPrefs.append("cityhustler")
+            if request.form.get("lonewolf") != None:
+                newUserPrefs.append("lonewolf")
+            if request.form.get("typicaltraveller") != None:
+                newUserPrefs.append("typicaltraveller")
+            if request.form.get("socialmediacrazy") != None:
+                newUserPrefs.append("socialmediacrazy")
+            if request.form.get("lovebirds") != None:
+                newUserPrefs.append("lovebirds")
+            if request.form.get("naturelover") != None:
+                newUserPrefs.append("naturelover")
+            if request.form.get("foodie") != None:
+                newUserPrefs.append("foodie")
+            if request.form.get("nightowl") != None:
+                newUserPrefs.append("nightowl")
+            newUser["prefs"] = newUserPrefs
             users.append(newUser)
             session["currentUser"] = newUser
             return redirect(url_for('index'))
@@ -136,6 +165,11 @@ def signup():
         return redirect(url_for('index'))
     elif request.method == "GET" or "currentUser" not in session:
         return render_template("signup.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("currentUser", None)
+    return redirect(url_for("index"), code=302)
 
 @app.route('/mini_logo.png')
 def mini_logo():

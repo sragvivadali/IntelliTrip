@@ -36,7 +36,7 @@
         <form class="needs-validation" novalidate action="{{ url_for('signup') }}" method="post">
             <div class="form-group">
                 <div style="text-align: left; padding: 0% 150px;">
-                    <label for="validationCustom01" class="form-text"><b>Email</b></label>
+                    <label for="validationCustom01" class="form-text"><b>Email:</b></label>
                     <div>
                         <input type="text" class="form-control" name="em" id="validationCustom01" required>
                     </div>
@@ -45,15 +45,48 @@
             <br>
             <div class="form-group">
                 <div style="text-align: left; padding: 0% 150px;">
-                    <label for="validationCustom02" class="form-text"><b>Name</b></label>
+                    <label for="validationCustom02" class="form-text"><b>Name:</b></label>
                     <input type="text" class="form-control" name="nm" id="validationCustom02" required>
                 </div>
             </div>
             <br>
             <div class="form-group">
+                <div style="text-align: left; padding: 0% 150px;">
+                    <label for="validationCustom03" class="form-text"><b>Travel Preferences:</b></label>
+                    <input type="checkbox" name="thriller" value="thriller">
+                    <label for="thriller"> Thriller</label><br>
+                    <input type="checkbox" name="invisiblehopper" value="invisiblehopper">
+                    <label for="invisiblehopper"> Invisible Hopper</label><br>
+                    <input type="checkbox" name="cityhustler" value="cityhustler">
+                    <label for="cityhustler"> City Hustler</label><br>
+                    <input type="checkbox" name="lonewolf" value="lonewolf">
+                    <label for="lonewolf"> Lone Wolf</label><br>
+                    <input type="checkbox" name="typicaltraveller" value="typicaltraveller">
+                    <label for="typicaltraveller"> Typical Traveller</label><br>
+                    <input type="checkbox" name="socialmediacrazy" value="socialmediacrazy">
+                    <label for="socialmediacrazy"> Social Media Crazy</label><br>
+                    <input type="checkbox" name="lovebirds" value="lovebirds">
+                    <label for="lovebirds"> Love Birds</label><br>
+                    <input type="checkbox" name="naturelover" value="naturelover">
+                    <label for="naturelover"> Nature Lover</label><br>
+                    <input type="checkbox" name="foodie" value="foodie">
+                    <label for="foodie"> Foodie</label><br>
+                    <input type="checkbox" name="nightowl" value="nightowl">
+                    <label for="nightowl"> Night Owl</label>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div style="text-align: left; padding: 0% 150px;">
+                    <label for="validationCustom04" class="form-text"><b>Password:</b></label>
+                    <input type="text" class="form-control" name="pw" id="validationCustom04" required>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
                 <div style="padding: 0% 150px; text-align: left;">
-                    <label for="validationCustom03" class="form-text"><b>Password</b></label>
-                    <input type="password" class="form-control" name="pw" id="validationCustom03" required>
+                    <label for="validationCustom05" class="form-text"><b>Confirm Password:</b></label>
+                    <input type="password" class="form-control" name="confirm-pw" id="validationCustom05" required>
                 </div>
                 <br><br>
                 <button class="submit-button" type="submit"><a class="submit-link" style="color: white;">Register</a></button>
@@ -67,7 +100,7 @@
         <br>
     </div>
     <br><br>
-    
+
 </body>
 
 </html>

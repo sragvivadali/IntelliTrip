@@ -1,0 +1,66 @@
+.body {
+    background-color: white;
+}
+
+.login-body {
+    background-color: rgb(244, 244, 244);
+    padding: 12px;
+}
+
+.logo-text {
+    
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.login-wrap {
+    width: 60%;
+    border-radius: 5px;
+    background-color: white;
+    font-family: 'Work Sans', sans-serif;
+    text-align: center;
+    margin: auto;
+    /* box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2); */
+}
+
+.mini-logo {
+    width: 18%;
+    cursor: pointer;
+}
+
+.mini-title {
+    font-size: 42px;
+    color: rgb(18, 18, 18);
+    font-weight: 600;
+}
+
+.form-text {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: black;
+}
+
+.submit-button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.submit-link {
+    font-size: 28px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    background-color: #02CAA8;
+    padding: 8px 20px;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-link:hover {
+    background-color: #18b096;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    text-decoration: none;
+    color: white;
+}

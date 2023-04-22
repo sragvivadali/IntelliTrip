@@ -4,6 +4,8 @@ from flask_session import Session
 import requests
 import json
 import math
+import random
+import string
 
 app = Flask(__name__)
 app.secret_key = "thisisasecretkeydonttellanyone"
@@ -47,21 +49,24 @@ user1 = {
 	"email": "user1@gmail.com",
     "name": "User1",
     "prefs": ["cityhustler", "socialmediacrazy", "lovebirds", "naturelover"],
-	"password": "test123"
+	"password": "test123",
+    "group": ""
 }
 
 user2 = {
 	"email": "user2@gmail.com",
     "name": "User2",
     "prefs": ["cityhustler", "socialmediacrazy"],
-	"password": "test123"
+	"password": "test123",
+    "group": ""
 }
 
 user3 = {
 	"email": "user3@gmail.com",
     "name": "User3",
     "prefs": ["cityhustler", "socialmediacrazy"],
-	"password": "test123"
+	"password": "test123",
+    "group": ""
 }
 
 users.append(user1)
@@ -121,7 +126,8 @@ def signup():
         newUser = {
             "email": request.form["em"],
             "name": request.form["nm"],
-            "password": request.form["pw"]
+            "password": request.form["pw"],
+            "group": request.form["gr"]
         }
 
         accountExists = False
@@ -193,3 +199,74 @@ def context_processor():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+# personality = {
+#         "Thrillers": False,
+#         "InvisibleHopper" : False,
+#         "CityHustler" : False,
+#         "LoneWolf" : False,
+#         "TypicalTraveller" : False,
+#         "SocialMediaCrazy" : False,
+#         "LoveBirds" : False,
+#         "NatureLover" : False,
+#         "Foodie" : False,
+#         "NightOwl" : False
+#     }
+
+description = {
+        "Thrillers": "adrenaline activities",
+        "InvisibleHopper" : "relaxing",
+        "CityHustler" : "city activities",
+        "LoneWolf" : "secluded areas",
+        "TypicalTraveller" : "tourist spot",
+        "SocialMediaCrazy" : "picture places",
+        "LoveBirds" : "romantic activities",
+        "NatureLover" : "natural places",
+        "Foodie" : "good local food",
+        "NightOwl" : "night life"
+    }
+
+# users = {}
+# userGroups = {}
+groups = {}
+
+def createGroup(self):
+    group_name = input("Enter group name: ")
+
+     # generate random 5-letter alphanumeric code
+    code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+
+        # check if the generated code already exists
+    while code in self.groups:
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+
+        # add the new group to the dictionary
+    currUser = session["currentUser"]
+    currUser["group"] = code
+    
+    groups[code] = group_name
+
+    print(f"Group '{group_name}' has been created with code '{code}'.")
+
+def joinGroup():
+    code = input("Enter 5-letter alphanumeric code to join group: ")
+
+    if code in groups:
+        group_name = groups[code]
+        currUser = session["currentUser"]
+        currUser["group"] = code
+        print(f"You have joined {group_name}!")
+    else:
+        print("Invalid code. Please try again.")
+
+def getGroup(str):
+    usersInGroup = []
+    for user in users:
+        if user["group"] == str:
+            usersInGroup.append(user)
+    return usersInGroup
+
+
+
+# def toggleType(typeName) -> bool:
+#     personality[typeName] = not personality[typeName]

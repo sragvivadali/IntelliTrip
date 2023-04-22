@@ -40,12 +40,77 @@
             <input class="search input" type="text" placeholder="Search a destination">
         </div>
 
-        <div id="places-container">
-            <div class="place-card"></div>
-        </div>
+        <div style="padding: 80px;">
 
-        <div id="places-container">
-            <div class="place-card"></div>
+            <h5 class="place-header-title">Recent Trips:</h5>
+
+            {% for trip in currentUser["trips"] %}
+            
+            {% endfor %}
+
+            <div class="places-container">
+                <div class="place-card">
+                    <h6 class="place-title">Greece</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?greece">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                    
+                </div>
+                <div class="place-card">
+                    <h6 class="place-title">Rome</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?rome">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+                <div class="place-card">
+                    <h6 class="place-title">London</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?london">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="place-header-title">Top Destinations:</h5>
+            <div class="places-container">
+                <div class="place-card">
+                    <h6 class="place-title">Greece</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?greece">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+                <div class="place-card">
+                    <h6 class="place-title">Rome</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?rome">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+                <div class="place-card">
+                    <h6 class="place-title">London</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?london">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+                <div class="place-card">
+                    <h6 class="place-title">Bahamas</h6>
+                    <img class="place-image" src="https://source.unsplash.com/300x300/?bahamas">
+                    <br><br>
+                    <div style="text-align: center;">
+                        <a class="itinerary-button">View Itinerary</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </body>

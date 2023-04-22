@@ -42,39 +42,27 @@
 
         <div style="padding: 80px;">
 
-            <h5 class="place-header-title">Recent Trips:</h5>
+            {% if currentUser["trips"]|length > 0 %}
+                
+                <h5 class="place-header-title">Recent Trips:</h5>
+                <div class="places-container">
 
-            {% for trip in currentUser["trips"] %}
+                {% for trip in currentUser["trips"] %}
+                    <div class="place-card">
+                        <h6 class="place-title">{{ trip }}</h6>
+                        <img class="place-image" src="https://source.unsplash.com/300x300/?{{ trip }}">
+                        <br><br>
+                        <div style="text-align: center;">
+                            <a href="/visit:{{trip}}" class="itinerary-button">View Itinerary</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                </div>
+
+            {% endif %}
+
             
-            {% endfor %}
-
-            <div class="places-container">
-                <div class="place-card">
-                    <h6 class="place-title">Greece</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?greece">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a class="itinerary-button">View Itinerary</a>
-                    </div>
-                    
-                </div>
-                <div class="place-card">
-                    <h6 class="place-title">Rome</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?rome">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a class="itinerary-button">View Itinerary</a>
-                    </div>
-                </div>
-                <div class="place-card">
-                    <h6 class="place-title">London</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?london">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a class="itinerary-button">View Itinerary</a>
-                    </div>
-                </div>
-            </div>
 
             <h5 class="place-header-title">Top Destinations:</h5>
             <div class="places-container">

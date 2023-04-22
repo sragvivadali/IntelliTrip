@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, session, request, send_file
 from flask_session import Session
 
+import cohere
+
 import requests
 import json
 import math
@@ -49,6 +51,7 @@ user1 = {
 	"email": "user1@gmail.com",
     "name": "User1",
     "prefs": ["cityhustler", "socialmediacrazy", "lovebirds", "naturelover"],
+    "trips": ["Lisbon", "New York", "Tokyo"],
 	"password": "test123",
     "group": ""
 }
@@ -57,6 +60,7 @@ user2 = {
 	"email": "user2@gmail.com",
     "name": "User2",
     "prefs": ["cityhustler", "socialmediacrazy"],
+    "trips": ["Chicago", "Seoul"],
 	"password": "test123",
     "group": ""
 }
@@ -65,6 +69,7 @@ user3 = {
 	"email": "user3@gmail.com",
     "name": "User3",
     "prefs": ["cityhustler", "socialmediacrazy"],
+    "trips": [],
 	"password": "test123",
     "group": ""
 }
@@ -127,7 +132,8 @@ def signup():
             "email": request.form["em"],
             "name": request.form["nm"],
             "password": request.form["pw"],
-            "group": request.form["gr"]
+            "trips": [],
+            "group": ""
         }
 
         accountExists = False
@@ -182,52 +188,19 @@ def mini_logo():
     filename = 'mini_logo.png'
     return send_file(filename, mimetype='image/png')
 
-@app.context_processor
-def context_processor():
-    global users
-
-    session.modified = True
-
-    isLoggedIn = False
-    currentUser = None
-
-    if "currentUser" in session:
-        isLoggedIn = True
-        currentUser = session["currentUser"]
-
-    return dict(isLoggedIn=isLoggedIn, users=users, currentUser=currentUser)
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-# personality = {
-#         "Thrillers": False,
-#         "InvisibleHopper" : False,
-#         "CityHustler" : False,
-#         "LoneWolf" : False,
-#         "TypicalTraveller" : False,
-#         "SocialMediaCrazy" : False,
-#         "LoveBirds" : False,
-#         "NatureLover" : False,
-#         "Foodie" : False,
-#         "NightOwl" : False
-#     }
-
 description = {
-        "Thrillers": "adrenaline activities",
-        "InvisibleHopper" : "relaxing",
-        "CityHustler" : "city activities",
-        "LoneWolf" : "secluded areas",
-        "TypicalTraveller" : "tourist spot",
-        "SocialMediaCrazy" : "picture places",
-        "LoveBirds" : "romantic activities",
-        "NatureLover" : "natural places",
-        "Foodie" : "good local food",
-        "NightOwl" : "night life"
-    }
+	"Thrillers": "adrenaline activities",
+	"InvisibleHopper" : "relaxing",
+	"CityHustler" : "city activities",
+	"LoneWolf" : "secluded areas",
+	"TypicalTraveller" : "tourist spot",
+	"SocialMediaCrazy" : "picture places",
+	"LoveBirds" : "romantic activities",
+	"NatureLover" : "natural places",
+	"Foodie" : "good local food",
+	"NightOwl" : "night life"
+}
 
-# users = {}
-# userGroups = {}
 groups = {}
 
 def createGroup(self):
@@ -266,7 +239,50 @@ def getGroup(str):
             usersInGroup.append(user)
     return usersInGroup
 
+def callAPI(place, time):
 
+  co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
 
-# def toggleType(typeName) -> bool:
-#     personality[typeName] = not personality[typeName]
+  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in secluded areas, tourist spots, adrenaline activities" %(time,place))
+  # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
+
+  response = co.generate(
+    model='865f8fee-b3d2-402a-9fb5-46f57be0d4d6-ft',
+    prompt= prompt,
+    max_tokens=2000, #944
+    temperature=0.9,
+    k=0,
+    stop_sequences=[],
+    return_likelihoods='NONE')
+
+  plan = response.generations[0].text
+
+  dayPlans = []
+  start = 0
+
+  for i in range(len(plan)):
+      if plan[i:i+5] == '\nDay ':
+          dayPlans.append(plan[start:i-2])
+          start = i
+
+  dayPlans.append(plan[start:])
+  dayPlans.pop(0)
+  return dayPlans
+
+@app.context_processor
+def context_processor():
+    global users
+
+    session.modified = True
+
+    isLoggedIn = False
+    currentUser = None
+
+    if "currentUser" in session:
+        isLoggedIn = True
+        currentUser = session["currentUser"]
+
+    return dict(isLoggedIn=isLoggedIn, users=users, currentUser=currentUser)
+
+if __name__ == "__main__":
+    app.run(debug=True)

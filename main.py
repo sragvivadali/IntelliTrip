@@ -20,7 +20,7 @@ json_txt_city = dataCity.text
 data = json.loads(json_txt_city)
 response = data['response']
 
-promptIt = "Given these locations, make a day by day itinerary: \n" + response
+promptIt = "Given these locations, make a detailed day by day itinerary for a $500 budget per day while including resturants and hotel: \n" + response
 payload = {"query": promptIt}
 
 dataPlan = requests.request("POST", url, json=payload, headers=headers)

@@ -357,8 +357,10 @@ def callAPI(place, time):
 
 
   co = cohere.Client('D5xfH4vJcpMK3guiHwsGJ1KuutLhaNRbU3JsJb0x') # This is your trial API key
-
-  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in secluded areas, tourist spots, adrenaline activities" %(time,place))
+  firstChoice = description[firstChoice]
+  secondChoice = description[secondChoice]
+  thirdChoice = description[thirdChoice]
+  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in %s, %s, %s" %(time,place,firstChoice,secondChoice,thirdChoice))
   # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
 
   response = co.generate(
@@ -377,10 +379,10 @@ def callAPI(place, time):
 
   for i in range(len(plan)):
       if plan[i:i+5] == '\nDay ':
-          dayPlans.append(plan[start + 7:i-1])
+          dayPlans.append(plan[start:i-1])
           start = i
 
-  dayPlans.append(plan[start + 7:])
+  dayPlans.append(plan[start:])
   dayPlans.pop(0)
   print(dayPlans)
   return dayPlans

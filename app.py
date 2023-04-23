@@ -279,6 +279,15 @@ def joinAGroup(code):
         print("Invalid code. Please try again.")
 
 def callAPI(place, time):
+  
+  currUser = session["currentUser"]
+  firstChoice = ""
+  secondChoice = ""
+  thirdChoice = ""
+  if currUser["group"] == "":
+    firstChoice = currUser["prefs"][0]
+  else:
+    firstChcoie = currUser["prefs"][0]
 
   co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
 
@@ -307,6 +316,8 @@ def callAPI(place, time):
   dayPlans.append(plan[start:])
   dayPlans.pop(0)
   return dayPlans
+
+
 
 @app.context_processor
 def context_processor():

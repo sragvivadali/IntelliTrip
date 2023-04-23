@@ -62,7 +62,7 @@ user2 = {
     "prefs": ["cityhustler", "socialmediacrazy"],
     "trips": ["Chicago", "Seoul"],
 	"password": "test123",
-    "group": ""
+    "group": "YWQTL"
 }
 
 user3 = {
@@ -78,11 +78,12 @@ users.append(user1)
 users.append(user2)
 users.append(user3)
 
+groups = {"YWQTL": "Vacationers"}
+
 @app.route("/", methods=["POST", "GET"])
 @app.route("/home", methods=["POST", "GET"])
 def index():
     # getItinerary()
-
 	global users
 
 	if "currentUser" not in session:
@@ -178,15 +179,15 @@ def signup():
     elif request.method == "GET" or "currentUser" not in session:
         return render_template("signup.html")
 
-@app.route("/groups", methods=["POST", "GET"])
-def groups():
+@app.route("/group", methods=["POST", "GET"])
+def group():
     global users, groups
 
     if "currentUser" not in session:
         return redirect(url_for('login'))
     # if request.method == "POST":
     #     session["currentUser"]["group"] = request.form["group_code"]
-    return render_template("groups.html")
+    return render_template("group.html")
 
 @app.route("/createGroup", methods=["POST", "GET"])
 def createGroup():
@@ -198,7 +199,7 @@ def createGroup():
     createAGroup(request.form["group_name"])
     session.modified = True
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/joinGroup", methods=["POST", "GET"])
 def joinGroup():
@@ -210,7 +211,7 @@ def joinGroup():
     joinAGroup(request.form["group_code"])
     session.modified = True 
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/leaveGroup", methods=["POST", "GET"])
 def leaveGroup():
@@ -222,7 +223,7 @@ def leaveGroup():
     session["currentUser"]["group"] = ""
     session.modified = True
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/logout")
 def logout():
@@ -249,8 +250,6 @@ description = {
 	"NightOwl" : "night life"
 }
 
-groups = {}
-
 def createAGroup(group_name):
     global users, groups
 
@@ -264,9 +263,15 @@ def createAGroup(group_name):
         # add the new group to the dictionary
     session["currentUser"]["group"] = code
     
+    for user in users:
+        if user["email"] == session["currentUser"]["email"]:
+            user["group"] = code
+            break
+
     groups[code] = group_name
 
     print(f"Group '{group_name}' has been created with code '{code}'.")
+    session.modified = True
 
 def joinAGroup(code):
     global users, groups
@@ -274,15 +279,98 @@ def joinAGroup(code):
     if code in groups:
         group_name = groups[code]
         session["currentUser"]["group"] = code
+        for user in users:
+            if user["email"] == session["currentUser"]["email"]:
+                user["group"] = code
+                break
         print(f"You have joined {group_name}!")
     else:
         print("Invalid code. Please try again.")
+    
+    session.modified = True
+
+def getUsersInGroup(code):
+        global users, groups
+
+        usersInGroup = []
+        for user in users:
+            print(user["group"] + " == " + code)
+            if user["group"] == code:
+                usersInGroup.append(user)
+        return usersInGroup
 
 def callAPI(place, time):
+  global description
+
+  currUser = session["currentUser"]
+  firstChoice = ""
+  secondChoice = ""
+  thirdChoice = ""
+  if currUser["group"] == "":
+    i=0
+    for choice in currUser["prefs"]:
+      if i == 0:
+        firstChoice = choice
+        i = i+1
+      elif i == 1:
+        secondChoice = choice
+        i = i + 1
+      else:
+        thirdChoice = choice
+    else:
+        code = currUser["group"]
+        users = getUsersInGroup(code)
+        groupPrefs = {
+  	        "Thrillers": 0,
+    	    "InvisibleHopper" : 0,
+    	    "CityHustler" : 0,
+    	    "LoneWolf" : 0,
+    	    "TypicalTraveller" : 0,
+    	    "SocialMediaCrazy" : 0,
+	         "LoveBirds" : 0,
+    	    "NatureLover" : 0,
+    	    "Foodie" : 0,
+    	    "NightOwl" : 0
+        }
+    for user in users:
+      for pref in user["prefs"]:
+        groupPrefs[pref] = groupPrefs[pref] + 1
+    
+
+    firstChoice = "Thrillers"
+    for key in groupPrefs:
+      if groupPrefs[key] > groupPrefs[firstChoice]:
+        firstChoice = key
+
+    if firstChoice == "Thrillers":
+      secondChoice = "InvisibleHopper"
+    else:
+      secondChoice = "Thrillers"
+    for key in groupPrefs:
+      if groupPrefs[key] > groupPrefs[secondChoice]:
+        if key != firstChoice:
+          secondChoice = key
+    
+
+    if firstChoice == "Thrillers" or secondChoice == "Thrillers":
+      if firstChoice == "InvisibleHopper" or secondChoice == "InvisibleHopper":
+        thirdChoice = "CityHustler"
+      else:
+        thirdChoice = "InvisibleHopper"
+    else:
+      thirdChoice == "Thrillers"
+
+    for key in groupPrefs:
+      if groupPrefs[key] > groupPrefs[thirdChoice]:
+        if key != firstChoice and key != secondChoice:
+          thirdChoice = key
+
 
   co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
-
-  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in secluded areas, tourist spots, adrenaline activities" %(time,place))
+  firstChoice = description[firstChoice]
+  secondChoice = description[secondChoice]
+  thirdChoice = description[thirdChoice]
+  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in %s, %s, %s" %(time,place,firstChoice,secondChoice,thirdChoice))
   # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
 
   response = co.generate(
@@ -306,7 +394,10 @@ def callAPI(place, time):
 
   dayPlans.append(plan[start:])
   dayPlans.pop(0)
+  print(dayPlans)
   return dayPlans
+
+
 
 @app.context_processor
 def context_processor():
@@ -333,6 +424,7 @@ def context_processor():
 
         usersInGroup = []
         for user in users:
+            print(user["group"] + " == " + code)
             if user["group"] == code:
                 usersInGroup.append(user)
         return usersInGroup
@@ -341,3 +433,8 @@ def context_processor():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    
+    
+
+

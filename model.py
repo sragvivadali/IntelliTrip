@@ -3,21 +3,22 @@ def callAPI():
   place = input("Location: ")
   time = input("Duration: ")
 
-  co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
+  co = cohere.Client('9QeAtosokYNhPasDam5aqh4tyb16r7WUwWtEebEf') # This is your trial API key
 
-  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in secluded areas, tourist spots, adrenaline activities" %(time,place))
-  print(prompt)
+  prompt = ("make a short %s day itinerary including specific restaurants in %s for a user interested in relaxing, tourist spots, good local food" %(time,place))
+  # print(prompt)
   # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
 
   response = co.generate(
-    model='865f8fee-b3d2-402a-9fb5-46f57be0d4d6-ft',
+    model='5d623c8d-7dee-4c80-9956-c1197b3898b6-ft',
     prompt= prompt,
     max_tokens=2000, #944
     temperature=0.9,
     k=0,
     stop_sequences=[],
     return_likelihoods='NONE')
-
+  
+  # print(splitByDay(response.generations[0].text))
   print(response.generations[0].text)
   return response.generations[0].text
 
@@ -27,7 +28,7 @@ def splitByDay(plan):
 
   for i in range(len(plan)):
       if plan[i:i+5] == '\nDay ':
-          arr.append(plan[start:i-2])
+          arr.append(plan[start:i-1])
           start = i
 
   arr.append(plan[start:])

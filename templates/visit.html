@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <!-- CSS stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/visit.css') }}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/deef0bf4ed.js" crossorigin="anonymous"></script>
+    
+    <title>IntelliTrip | Visit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+    <a href="/" class="previous round"><i class="fa fa-angle-left" style="font-size:24px"></i></a>
+    <div class= "container">
+        <div class = "header"> 
+            
+            <h4 class="title">{{ place }}</h4>
+            <img class="picture" src="https://source.unsplash.com/1600x900/?{{ place }} Landscape" alt="">
+            <div class="desc">
+                <span>
+                    <svg fill="currentColor" height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512; color: #0c9f84;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z M277.333,256
+                            c0,11.797-9.536,21.333-21.333,21.333h-85.333c-11.797,0-21.333-9.536-21.333-21.333s9.536-21.333,21.333-21.333h64v-128
+                            c0-11.797,9.536-21.333,21.333-21.333s21.333,9.536,21.333,21.333V256z"/>
+                        </g>
+                    </g>
+                </svg>
+                <span class="ml-1">{{ days }} days</span></span>
+                <hr class = "line"/>
+                
+            </div>  
+            <div class = "body">
+                
+                {% set ns = namespace(c = 1) %}
+                {% for dayPlan in dayPlans %}
+
+                    <div class="card">
+                        <h4 class = "first"><b>Day {{ ns.c }}</b></h4>
+                        <div class = "second">
+                            <p>{{ dayPlan }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% set ns.c = ns.c + 1 %}
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -45,15 +45,20 @@
                 <h3 class="group-subtitle">Shareable ID: <span style="font-weight: 400;">{{ currentUser["group"] }}</span></h3>
             </div>
 
-            <div class="group-wrap" style="background-color: white; color: black; padding-top: 50px;">
-                <h4>Users in group: {{ currentUser["group"] }}</h4>
-                {% for user in getUsersInGroup(currentUser["group"]) %}
+            <!-- Add search bar stuff -->
 
-                    <div class="user-card">
-                        <h5>Name of card: {{ user["name"] }}</h5>
-                    </div>
+            <div class="group-wrap" style="background-color: white; color: black; padding-top: 50px; text-align: center;">
+                <h4 class="user-card-container-title">Users in Group:</h4>
+                <div id="user-card-container">
+                    {% for user in getUsersInGroup(currentUser["group"]) %}
 
-                {% endfor %}
+                        <div class="user-card">
+                            <h5 class="user-title">{{ user["name"] }}</h5>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
             </div>
 
         {% else %}

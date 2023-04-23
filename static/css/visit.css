@@ -1,0 +1,90 @@
+body {
+    font-family: 'Work Sans', sans-serif !important;
+  }
+  
+  .container {
+    margin: 3rem auto;
+    padding: 0rem 2rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    text-align: center;
+    padding-top: 1rem;
+    margin-bottom: 1.3rem;
+    font-family: 'Work Sans';
+    font-weight: bold;
+  }
+  
+  .picture {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+  }
+  
+  .desc {
+    font-family: 'Work Sans';
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #0c9f84;
+  }
+  
+  .line {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    font-weight: lighter;
+  }
+  
+  .previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #0fcaa8;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .previous:hover{
+    background-color: #1b9f87;
+    color: white;
+  }
+  
+  .round {
+    margin-left: 2rem;
+    position: fixed;
+    border-radius: 50%;
+  }
+  
+  .body {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  
+  .card {
+    box-shadow: 0 4px 20px 0 rgba(38, 87, 11, 0.23);
+    transition: 0.3s;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    width: 75%;
+  }
+  
+  .first {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    float:center; /* add this */
+  }
+  .second {
+    border-top: 1px solid #0fcaa8 ;
+    padding: 0.5rem 1rem;
+    overflow: hidden; /* if you don't want #second to wrap below #first */
+  }

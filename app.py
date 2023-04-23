@@ -12,46 +12,13 @@ import string
 app = Flask(__name__)
 app.secret_key = "thisisasecretkeydonttellanyone"
 
-def getItinerary():
-
-	url = "https://gpt-chatbotapi.p.rapidapi.com/ask"
-
-	headers = {
-		"content-type": "application/json",
-		"X-RapidAPI-Key": "1245c0d08cmsh6048f1f2b40e429p1f824ejsnda64bb5ace07",
-		"X-RapidAPI-Host": "gpt-chatbotapi.p.rapidapi.com"
-	}
-
-	promptInput = input("Where do you want to visit? ")
-	prompt = "Things you must do at " + promptInput
-	payload = {"query": prompt}
-
-	dataCity = requests.request("POST", url, json=payload, headers=headers)
-
-	json_txt_city = dataCity.text
-
-	data = json.loads(json_txt_city)
-	response = data['response']
-
-	promptIt = "Given these locations, make a detailed day by day itinerary for a $500 budget per day while including resturants and hotel: \n" + response
-	payload = {"query": promptIt}
-
-	dataPlan = requests.request("POST", url, json=payload, headers=headers)
-
-	json_txt = dataPlan.text
-
-	dataIt = json.loads(json_txt)
-	response = dataIt['response']
-
-	print(response)
-
 users = []
 
 user1 = {
 	"email": "user1@gmail.com",
     "name": "User1",
     "prefs": ["cityhustler", "socialmediacrazy", "lovebirds", "naturelover"],
-    "trips": ["Lisbon", "New York", "Tokyo"],
+    "trips": ["Lisbon", "New York City", "Tokyo"],
 	"password": "test123",
     "group": ""
 }
@@ -180,6 +147,29 @@ def signup():
     elif request.method == "GET" or "currentUser" not in session:
         return render_template("signup.html")
 
+@app.route("/visit:<place>,<days>")
+def visit(place, days):
+    global users, groups
+
+    if "currentUser" not in session:
+        return redirect(url_for('login'))
+
+    actualPlace = place
+
+    for i in range(len(place)):
+        if place[i] == "%":
+            actualPlace = actualPlace[0:i] + " " + actualPlace[i + 4:]
+
+    dayPlans = callAPI(actualPlace, days)
+
+    session["currentUser"]["trips"].insert(0, actualPlace)
+    
+    for user in users:
+        if user["email"] == session["currentUser"]["email"]:
+            user["trips"] = session["currentUser"]["trips"]
+
+    return render_template("visit.html", place=actualPlace, dayPlans=dayPlans, days=days)
+
 @app.route("/group", methods=["POST", "GET"])
 def group():
     global users, groups
@@ -301,13 +291,13 @@ def callAPI(place, time):
   else:
     firstChcoie = currUser["prefs"][0]
 
-  co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
+  co = cohere.Client('D5xfH4vJcpMK3guiHwsGJ1KuutLhaNRbU3JsJb0x') # This is your trial API key
 
   prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in secluded areas, tourist spots, adrenaline activities" %(time,place))
   # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
 
   response = co.generate(
-    model='865f8fee-b3d2-402a-9fb5-46f57be0d4d6-ft',
+    model='da0398d8-9a0f-4b8b-b670-6e6bbc304e41-ft',
     prompt= prompt,
     max_tokens=2000, #944
     temperature=0.9,
@@ -322,14 +312,12 @@ def callAPI(place, time):
 
   for i in range(len(plan)):
       if plan[i:i+5] == '\nDay ':
-          dayPlans.append(plan[start:i-1])
+          dayPlans.append(plan[start + 7:i-1])
           start = i
 
-  dayPlans.append(plan[start:])
+  dayPlans.append(plan[start + 7:])
   dayPlans.pop(0)
   return dayPlans
-
-
 
 @app.context_processor
 def context_processor():

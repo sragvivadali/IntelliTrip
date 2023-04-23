@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+
+        <!-- CSS stylesheets -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/groups.css') }}">
+
+        <!-- JS -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <title>IntelliTrip | Groups</title>
+    </head>
+
+    <body class="body" style="background-color: #02CAA8; overflow-y: hidden;">
+        {% if currentUser["group"]|length > 0 %}
+
+            <a class="home-button" href="/" style="margin-top: 30px; margin-left: 30px;">Home</a>
+            <br><br><br>
+            <div class="group-header">
+                
+                <h3 class="group-title">{{ getGroupName(currentUser["group"]) }}</h3>
+                <h3 class="group-subtitle">Shareable ID: <span style="font-weight: 400;">{{ currentUser["group"] }}</span></h3>
+            </div>
+
+            <div class="group-wrap">
+
+            </div>
+
+        {% else %}
+            <a class="home-button" href="/" style="margin-top: 30px; margin-left: 30px;">Home</a>
+            
+            <div class="group-wrap">
+                <br><br>
+                <h3 class="group-title">You don't have a group.</h3>
+                <br><br>
+                <a class="group-button" onclick="unhideGroupForm(0)">Create Group</a>
+                <a class="group-button" onclick="unhideGroupForm(1)">Join Group</a>
+
+                <br><br><br>
+
+                <div id="create-group-div">
+                    <form class="needs-validation" novalidate action="{{ url_for('createGroup') }}" method="post">
+                        <div class="form-group">
+                            <div style="text-align: left; padding: 0% 150px;">
+                                <label for="validationCustom01" class="form-text" style="font-size: 28px; color: white;"><b>Group Name:</b></label>
+                                <div>
+                                    <input type="text" class="form-control" name="group_name" id="validationCustom01" required placeholder="Enter group name">
+                                </div>
+                                <br>
+                                <button class="submit-button" type="submit" style="margin-left: 160px;"><a class="submit-link" style="color: white;">Create</a></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="join-group-div">
+                    <form class="needs-validation" novalidate action="{{ url_for('joinGroup') }}" method="post">
+                        <div class="form-group">
+                            <div style="text-align: left; padding: 0% 150px;">
+                                <label for="validationCustom01" class="form-text" style="font-size: 28px; color: white;"><b>Group Code:</b></label>
+                                <div>
+                                    <input type="text" class="form-control" name="group_code" id="validationCustom01" required placeholder="Enter group name">
+                                </div>
+                                <br>
+                                <button class="submit-button" type="submit" style="margin-left: 160px;"><a class="submit-link" style="color: white;">Join</a></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                
+            </div>
+            
+        {% endif %}
+
+    </body>
+</html>

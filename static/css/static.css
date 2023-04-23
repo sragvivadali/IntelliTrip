@@ -1,5 +1,6 @@
 .body {
     background-color: white;
+    font-family: 'Work Sans', sans-serif;
 }
 
 .login-body {
@@ -167,4 +168,21 @@
     /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
     text-decoration: none;
     color: white;
+}
+
+.home-button {
+    background-color: white;
+    color: black;
+    float: left;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: 0.2s ease;
+}
+
+.home-button:hover {
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }

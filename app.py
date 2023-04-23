@@ -178,8 +178,56 @@ def signup():
     elif request.method == "GET" or "currentUser" not in session:
         return render_template("signup.html")
 
+@app.route("/groups", methods=["POST", "GET"])
+def groups():
+    global users, groups
+
+    if "currentUser" not in session:
+        return redirect(url_for('login'))
+    # if request.method == "POST":
+    #     session["currentUser"]["group"] = request.form["group_code"]
+    return render_template("groups.html")
+
+@app.route("/createGroup", methods=["POST", "GET"])
+def createGroup():
+    global users, groups
+
+    if "currentUser" not in session or request.method == "GET":
+        return redirect(url_for('login'))
+    
+    createAGroup(request.form["group_name"])
+    session.modified = True
+
+    return redirect(url_for('groups'))
+
+@app.route("/joinGroup", methods=["POST", "GET"])
+def joinGroup():
+    global users, groups
+
+    if "currentUser" not in session or request.method == "GET":
+        return redirect(url_for('login'))
+    
+    joinAGroup(request.form["group_code"])
+    session.modified = True 
+
+    return redirect(url_for('groups'))
+
+@app.route("/leaveGroup", methods=["POST", "GET"])
+def leaveGroup():
+    global users, groups
+
+    if "currentUser" not in session:
+        return redirect(url_for('login'))
+    
+    session["currentUser"]["group"] = ""
+    session.modified = True
+
+    return redirect(url_for('groups'))
+
 @app.route("/logout")
 def logout():
+    global users, groups
+
     session.pop("currentUser", None)
     return redirect(url_for("index"), code=302)
 
@@ -203,36 +251,36 @@ description = {
 
 groups = {}
 
-def createGroup(self):
-    group_name = input("Enter group name: ")
+def createAGroup(group_name):
+    global users, groups
 
      # generate random 5-letter alphanumeric code
     code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 
         # check if the generated code already exists
-    while code in self.groups:
+    while code in groups:
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 
         # add the new group to the dictionary
-    currUser = session["currentUser"]
-    currUser["group"] = code
+    session["currentUser"]["group"] = code
     
     groups[code] = group_name
 
     print(f"Group '{group_name}' has been created with code '{code}'.")
 
-def joinGroup():
-    code = input("Enter 5-letter alphanumeric code to join group: ")
+def joinAGroup(code):
+    global users, groups
 
     if code in groups:
         group_name = groups[code]
-        currUser = session["currentUser"]
-        currUser["group"] = code
+        session["currentUser"]["group"] = code
         print(f"You have joined {group_name}!")
     else:
         print("Invalid code. Please try again.")
 
-def getGroup(str):
+def getUserInGroup(str):
+    global users, groups
+
     usersInGroup = []
     for user in users:
         if user["group"] == str:
@@ -271,7 +319,7 @@ def callAPI(place, time):
 
 @app.context_processor
 def context_processor():
-    global users
+    global users, groups
 
     session.modified = True
 
@@ -282,7 +330,14 @@ def context_processor():
         isLoggedIn = True
         currentUser = session["currentUser"]
 
-    return dict(isLoggedIn=isLoggedIn, users=users, currentUser=currentUser)
+    def getGroupName(code):
+        print(groups)
+        if code in groups:
+            group_name = groups[code]
+            return group_name
+        return "no group found"
+
+    return dict(isLoggedIn=isLoggedIn, users=users, groups=groups, currentUser=currentUser, getGroupName=getGroupName)
 
 if __name__ == "__main__":
     app.run(debug=True)

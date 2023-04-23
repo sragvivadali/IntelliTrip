@@ -18,7 +18,7 @@
 
         <!-- CSS stylesheets -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/groups.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/group.css') }}">
 
         <!-- JS -->
         <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
@@ -31,7 +31,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <title>IntelliTrip | Groups</title>
+        <title>IntelliTrip | Group</title>
     </head>
 
     <body class="body" style="background-color: #02CAA8; overflow-y: hidden;">
@@ -45,8 +45,15 @@
                 <h3 class="group-subtitle">Shareable ID: <span style="font-weight: 400;">{{ currentUser["group"] }}</span></h3>
             </div>
 
-            <div class="group-wrap" style="background-color: white;">
+            <div class="group-wrap" style="background-color: white; color: black; padding-top: 50px;">
+                <h4>Users in group: {{ currentUser["group"] }}</h4>
                 {% for user in getUsersInGroup(currentUser["group"]) %}
+
+                    <div class="user-card">
+                        <h5>Name of card: {{ user["name"] }}</h5>
+                    </div>
+
+                {% endfor %}
             </div>
 
         {% else %}
@@ -91,7 +98,6 @@
                     </form>
                 </div>
 
-                
             </div>
             
         {% endif %}

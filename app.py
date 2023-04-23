@@ -62,7 +62,7 @@ user2 = {
     "prefs": ["cityhustler", "socialmediacrazy"],
     "trips": ["Chicago", "Seoul"],
 	"password": "test123",
-    "group": ""
+    "group": "YWQTL"
 }
 
 user3 = {
@@ -77,6 +77,8 @@ user3 = {
 users.append(user1)
 users.append(user2)
 users.append(user3)
+
+groups = {"YWQTL": "Vacationers"}
 
 @app.route("/", methods=["POST", "GET"])
 @app.route("/home", methods=["POST", "GET"])
@@ -178,15 +180,15 @@ def signup():
     elif request.method == "GET" or "currentUser" not in session:
         return render_template("signup.html")
 
-@app.route("/groups", methods=["POST", "GET"])
-def groups():
+@app.route("/group", methods=["POST", "GET"])
+def group():
     global users, groups
 
     if "currentUser" not in session:
         return redirect(url_for('login'))
     # if request.method == "POST":
     #     session["currentUser"]["group"] = request.form["group_code"]
-    return render_template("groups.html")
+    return render_template("group.html")
 
 @app.route("/createGroup", methods=["POST", "GET"])
 def createGroup():
@@ -198,7 +200,7 @@ def createGroup():
     createAGroup(request.form["group_name"])
     session.modified = True
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/joinGroup", methods=["POST", "GET"])
 def joinGroup():
@@ -210,7 +212,7 @@ def joinGroup():
     joinAGroup(request.form["group_code"])
     session.modified = True 
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/leaveGroup", methods=["POST", "GET"])
 def leaveGroup():
@@ -222,7 +224,7 @@ def leaveGroup():
     session["currentUser"]["group"] = ""
     session.modified = True
 
-    return redirect(url_for('groups'))
+    return redirect(url_for('group'))
 
 @app.route("/logout")
 def logout():
@@ -249,8 +251,6 @@ description = {
 	"NightOwl" : "night life"
 }
 
-groups = {}
-
 def createAGroup(group_name):
     global users, groups
 
@@ -264,9 +264,15 @@ def createAGroup(group_name):
         # add the new group to the dictionary
     session["currentUser"]["group"] = code
     
+    for user in users:
+        if user["email"] == session["currentUser"]["email"]:
+            user["group"] = code
+            break
+
     groups[code] = group_name
 
     print(f"Group '{group_name}' has been created with code '{code}'.")
+    session.modified = True
 
 def joinAGroup(code):
     global users, groups
@@ -274,9 +280,15 @@ def joinAGroup(code):
     if code in groups:
         group_name = groups[code]
         session["currentUser"]["group"] = code
+        for user in users:
+            if user["email"] == session["currentUser"]["email"]:
+                user["group"] = code
+                break
         print(f"You have joined {group_name}!")
     else:
         print("Invalid code. Please try again.")
+    
+    session.modified = True
 
 def callAPI(place, time):
   
@@ -344,6 +356,7 @@ def context_processor():
 
         usersInGroup = []
         for user in users:
+            print(user["group"] + " == " + code)
             if user["group"] == code:
                 usersInGroup.append(user)
         return usersInGroup

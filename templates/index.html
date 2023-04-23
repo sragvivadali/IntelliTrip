@@ -1,140 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    
+    <!-- Bootstrap CSS -->
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+    />
+    
+    <!-- CSS stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    
+    <!-- JS stylesheets -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <!-- JS stylesheets -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <title>IntelliTrip</title>
+</head>
 
-        <!-- Bootstrap CSS -->
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-        />
-
-        <!-- CSS stylesheets -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-
-        <!-- JS stylesheets -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-        <!-- JS stylesheets -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-        <title>IntelliTrip</title>
-    </head>
-
-    <body class="body">
-        <img class="mini-logo" src="/mini_logo.png" alt="IntelliTrip" onclick="window.open('/', '_self')">
-        <div class="dropdown">
-            <i onclick="myFunction()" class="fa fa-user-circle-o dropbtn" style="font-size:24px"></i>
-            <div id="myDropdown" class="dropdown-content">
-              <p class = "name"><i class="fa fa-user-circle-o icon"></i>{{currentUser["name"]}}</p>
-              <hr>
-              <a href="/group"><i class="fa fa-users icon"></i> Groups</a>
-              <a href="/logout"><i class="fa fa-sign-out icon"></i>Log Out</a>
-            </div>
-          </div>
-        <div class="dropdown">
-            <i onclick="myFunction()" class="fa fa-user-circle-o dropbtn" style="font-size:24px"></i>
-            <div id="myDropdown" class="dropdown-content">
-              <p class = "name"><i class="fa fa-user-circle-o icon"></i>{{currentUser["name"]}}</p>
-              <hr>
-              <a href="/group"><i class="fa fa-users icon"></i> Groups</a>
-              <a href="/logout"><i class="fa fa-sign-out icon"></i>Log Out</a>
-            </div>
-          </div>
-        <br><br>
+<body class="body">
+    <img class="mini-logo" src="/mini_logo.png" alt="IntelliTrip" onclick="window.open('/', '_self')">
+    <div class="dropdown">
+        <i onclick="myFunction()" class="fa fa-user-circle-o dropbtn" style="font-size:24px"></i>
+        <div id="myDropdown" class="dropdown-content">
+            <p class = "name"><i class="fa fa-user-circle-o icon"></i>{{currentUser["name"]}}</p>
+            <hr>
+            <a href="/group"><i class="fa fa-users icon"></i> Groups</a>
+            <a href="/logout"><i class="fa fa-sign-out icon"></i>Log Out</a>
+        </div>
+    </div>
+    <br><br>
+    
+    <div class="search container">
+        <h4 class="subtitle">Where would you like to visit?</h4><br>
+        <input class="search input" id="searchBar" type="text" placeholder="Search a destination">
+        <div class = "days">            
+            <i onclick = "decrement()" class="fa fa-minus-circle icon days-content" style="font-size: 1.5rem;"></i> 
+            <p id="counting" class = "days-content" style="font-size: 1.5rem;">1</p>
+            <p class = "days-content" style="font-size: 1.5rem;"> days</p>
+            <i onclick = "increment()" class="fa fa-plus-circle icon days-content" style="font-size: 1.5rem;"></i>        
+        </div>
+        <i onclick="searchDestination()" class="fa fa-arrow-circle-right" style="font-size:2rem;color: #2c90ee; cursor: pointer;"></i>
+    </div>
+    
+    
+    
+    <div style="padding: 80px;">
         
-        <div class="search container">
-            <h4 class="subtitle">Where would you like to visit?</h4><br>
-            <input class="search input" id="searchBar" type="text" placeholder="Search a destination">
-            <div class = "days">            
-                <i onclick = "decrement()" class="fa fa-minus-circle icon days-content" style="font-size: 1.5rem;"></i> 
-                <p id="counting" class = "days-content" style="font-size: 1.5rem;">1</p>
-                <p class = "days-content" style="font-size: 1.5rem;"> days</p>
-                <i onclick = "increment()" class="fa fa-plus-circle icon days-content" style="font-size: 1.5rem;"></i>        
+        {% if currentUser["trips"]|length > 0 %}
+        
+        <h5 class="place-header-title">Recent Trips:</h5>
+        <div class="places-container">
+            
+            {% for trip in currentUser["trips"] %}
+            <div class="place-card">
+                <h6 class="place-title">{{ trip }}</h6>
+                <img class="place-image" src="https://source.unsplash.com/300x300/?{{ trip }} Landscape">
+                <br><br>
+                <div style="text-align: center;">
+                    <a href="/visit:{{ trip }},3" class="itinerary-button">View Itinerary</a>
+                </div>
             </div>
-            <i onclick="searchDestination()" class="fa fa-arrow-circle-right" style="font-size:2rem;color: #2c90ee; cursor: pointer;"></i>
+            {% endfor %}
+            
         </div>
-
-
-
-        <div style="padding: 80px;">
-
-            {% if currentUser["trips"]|length > 0 %}
-                
-                <h5 class="place-header-title">Recent Trips:</h5>
-                <div class="places-container">
-
-                {% for trip in currentUser["trips"] %}
-                    <div class="place-card">
-                        <h6 class="place-title">{{ trip }}</h6>
-                        <img class="place-image" src="https://source.unsplash.com/300x300/?{{ trip }} Landscape">
-                        <br><br>
-                        <div style="text-align: center;">
-                            <a href="/visit:{{ trip }},3" class="itinerary-button">View Itinerary</a>
-                        </div>
-                    </div>
-                {% endfor %}
-
+        
+        {% endif %}
+        
+        <h5 class="place-header-title">Top Destinations:</h5>
+        <div class="places-container">
+            <div class="place-card">
+                <h6 class="place-title">Greece</h6>
+                <img class="place-image" src="https://source.unsplash.com/300x300/?greece Landscape">
+                <br><br>
+                <div style="text-align: center;">
+                    <a href="/visit:Greece,3" class="itinerary-button">View Itinerary</a>
                 </div>
-
-            {% endif %}
-
-            <h5 class="place-header-title">Top Destinations:</h5>
-            <div class="places-container">
-                <div class="place-card">
-                    <h6 class="place-title">Greece</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?greece Landscape">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a href="/visit:Greece,3" class="itinerary-button">View Itinerary</a>
-                    </div>
+            </div>
+            <div class="place-card">
+                <h6 class="place-title">Rome</h6>
+                <img class="place-image" src="https://source.unsplash.com/300x300/?rome Landscape">
+                <br><br>
+                <div style="text-align: center;">
+                    <a href="/visit:Rome,3" class="itinerary-button">View Itinerary</a>
                 </div>
-                <div class="place-card">
-                    <h6 class="place-title">Rome</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?rome Landscape">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a href="/visit:Rome,3" class="itinerary-button">View Itinerary</a>
-                    </div>
+            </div>
+            <div class="place-card">
+                <h6 class="place-title">London</h6>
+                <img class="place-image" src="https://source.unsplash.com/300x300/?london Landscape">
+                <br><br>
+                <div style="text-align: center;">
+                    <a href="/visit:London,3" class="itinerary-button">View Itinerary</a>
                 </div>
-                <div class="place-card">
-                    <h6 class="place-title">London</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?london Landscape">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a href="/visit:London,3" class="itinerary-button">View Itinerary</a>
-                    </div>
-                </div>
-                <div class="place-card">
-                    <h6 class="place-title">Bahamas</h6>
-                    <img class="place-image" src="https://source.unsplash.com/300x300/?bahamas Landscape">
-                    <br><br>
-                    <div style="text-align: center;">
-                        <a href="/visit:Bahamas,3" class="itinerary-button">View Itinerary</a>
-                    </div>
+            </div>
+            <div class="place-card">
+                <h6 class="place-title">Bahamas</h6>
+                <img class="place-image" src="https://source.unsplash.com/300x300/?bahamas Landscape">
+                <br><br>
+                <div style="text-align: center;">
+                    <a href="/visit:Bahamas,3" class="itinerary-button">View Itinerary</a>
                 </div>
             </div>
         </div>
-
-    </body>
+    </div>
+    
+</body>
 </html>

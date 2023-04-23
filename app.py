@@ -228,16 +228,16 @@ def mini_logo():
     return send_file(filename, mimetype='image/png')
 
 description = {
-	"Thrillers": "adrenaline activities",
-	"InvisibleHopper" : "relaxing",
-	"CityHustler" : "city activities",
-	"LoneWolf" : "secluded areas",
-	"TypicalTraveller" : "tourist spot",
-	"SocialMediaCrazy" : "picture places",
-	"LoveBirds" : "romantic activities",
-	"NatureLover" : "natural places",
-	"Foodie" : "good local food",
-	"NightOwl" : "night life"
+	"thrillers": "adrenaline activities",
+	"invisiblehopper" : "relaxing",
+	"cityhustler" : "city activities",
+	"lonewolf" : "secluded areas",
+	"typicaltraveller" : "tourist spot",
+	"socialmediacrazy" : "picture places",
+	"lovebirds" : "romantic activities",
+	"naturelover" : "natural places",
+	"foodie" : "good local food",
+	"nightowl" : "night life"
 }
 
 def createAGroup(group_name):
@@ -307,48 +307,48 @@ def callAPI(place, time):
         i = i + 1
       else:
         thirdChoice = choice
-    else:
-        code = currUser["group"]
-        users = getUsersInGroup(code)
-        groupPrefs = {
-  	        "Thrillers": 0,
-    	    "InvisibleHopper" : 0,
-    	    "CityHustler" : 0,
-    	    "LoneWolf" : 0,
-    	    "TypicalTraveller" : 0,
-    	    "SocialMediaCrazy" : 0,
-	         "LoveBirds" : 0,
-    	    "NatureLover" : 0,
-    	    "Foodie" : 0,
-    	    "NightOwl" : 0
-        }
+  else:
+    code = currUser["group"]
+    users = getUsersInGroup(code)
+    groupPrefs = {
+        "thrillers": 0,
+        "invisiblehopper" : 0,
+        "cityhustler" : 0,
+        "lonewolf" : 0,
+        "typicaltraveller" : 0,
+        "socialmediacrazy" : 0,
+        "lovebirds" : 0,
+        "naturelover" : 0,
+        "foodie" : 0,
+        "nightowl" : 0
+    }
     for user in users:
       for pref in user["prefs"]:
         groupPrefs[pref] = groupPrefs[pref] + 1
     
 
-    firstChoice = "Thrillers"
+    firstChoice = "thrillers"
     for key in groupPrefs:
       if groupPrefs[key] > groupPrefs[firstChoice]:
         firstChoice = key
 
-    if firstChoice == "Thrillers":
-      secondChoice = "InvisibleHopper"
+    if firstChoice == "thrillers":
+      secondChoice = "invisiblehopper"
     else:
-      secondChoice = "Thrillers"
+      secondChoice = "thrillers"
     for key in groupPrefs:
       if groupPrefs[key] > groupPrefs[secondChoice]:
         if key != firstChoice:
           secondChoice = key
     
 
-    if firstChoice == "Thrillers" or secondChoice == "Thrillers":
-      if firstChoice == "InvisibleHopper" or secondChoice == "InvisibleHopper":
-        thirdChoice = "CityHustler"
+    if firstChoice == "thrillers" or secondChoice == "thrillers":
+      if firstChoice == "invisiblehopper" or secondChoice == "invisiblehopper":
+        thirdChoice = "cityhustler"
       else:
-        thirdChoice = "InvisibleHopper"
+        thirdChoice = "invisiblehopper"
     else:
-      thirdChoice == "Thrillers"
+      thirdChoice = "thrillers"
 
     for key in groupPrefs:
       if groupPrefs[key] > groupPrefs[thirdChoice]:
@@ -357,10 +357,11 @@ def callAPI(place, time):
 
 
   co = cohere.Client('D5xfH4vJcpMK3guiHwsGJ1KuutLhaNRbU3JsJb0x') # This is your trial API key
-  firstChoice = description[firstChoice]
-  secondChoice = description[secondChoice]
-  thirdChoice = description[thirdChoice]
-  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in %s, %s, %s" %(time,place,firstChoice,secondChoice,thirdChoice))
+  print('KEY ', firstChoice)
+  firstChoice1 = description[firstChoice]
+  secondChoice1 = description[secondChoice]
+  thirdChoice1 = description[thirdChoice]
+  prompt = ("make a detailed %s day itinerary with five things to do per day including specific restaurants in %s for a user interested in %s, %s, %s" %(time,place,firstChoice1,secondChoice1,thirdChoice1))
   # prompt = ("make a %s day itinerary with specific restaurants for %s" % (time,place))
 
   response = co.generate(

@@ -28,6 +28,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -45,9 +47,21 @@
                 <h3 class="group-subtitle">Shareable ID: <span style="font-weight: 400;">{{ currentUser["group"] }}</span></h3>
             </div>
 
-            <!-- Add search bar stuff -->
-
             <div class="group-wrap" style="background-color: white; color: black; padding-top: 50px; text-align: center;">
+                <div class="search container">
+                    <h4 class="subtitle" style="font-size: 30px; color: black;">Where would you all like to visit?</h4><br>
+                    <input class="search input" id="searchBar" type="text" placeholder="Search a destination">
+                    <div class = "days">            
+                        <i onclick = "decrement()" class="fa fa-minus-circle icon days-content" style="font-size: 1.5rem;"></i> 
+                        <p id="counting" class = "days-content" style="font-size: 1.5rem;">1</p>
+                        <p class = "days-content" style="font-size: 1.5rem;"> days</p>
+                        <i onclick = "increment()" class="fa fa-plus-circle icon days-content" style="font-size: 1.5rem;"></i>        
+                    </div>
+                    <i onclick="searchDestination()" class="fa fa-arrow-circle-right" style="font-size:2rem;color: #2c90ee; cursor: pointer;"></i>
+                </div>
+                
+                <br><br>
+                
                 <h4 class="user-card-container-title">Users in Group:</h4>
                 <div id="user-card-container">
                     {% for user in getUsersInGroup(currentUser["group"]) %}

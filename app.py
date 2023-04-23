@@ -183,8 +183,8 @@ def signup():
         if not accountExists:
             print("Registration successful!")
             newUserPrefs = []
-            if request.form.get("thriller") != None:
-                newUserPrefs.append("thriller")
+            if request.form.get("thrillers") != None:
+                newUserPrefs.append("thrillers")
             if request.form.get("invisiblehopper") != None:
                 newUserPrefs.append("invisiblehopper")
             if request.form.get("cityhustler") != None:
@@ -307,7 +307,8 @@ description = {
 	"lovebirds" : "romantic activities",
 	"naturelover" : "natural places",
 	"foodie" : "good local food",
-	"nightowl" : "night life"
+	"nightowl" : "night life",
+    "" : ""
 }
 
 def createAGroup(group_name):
@@ -390,7 +391,8 @@ def callAPI(place, time):
         "lovebirds" : 0,
         "naturelover" : 0,
         "foodie" : 0,
-        "nightowl" : 0
+        "nightowl" : 0,
+        "" : 0
     }
     for user in users:
       for pref in user["prefs"]:

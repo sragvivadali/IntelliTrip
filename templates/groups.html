@@ -45,8 +45,8 @@
                 <h3 class="group-subtitle">Shareable ID: <span style="font-weight: 400;">{{ currentUser["group"] }}</span></h3>
             </div>
 
-            <div class="group-wrap">
-
+            <div class="group-wrap" style="background-color: white;">
+                {% for user in getUsersInGroup(currentUser["group"]) %}
             </div>
 
         {% else %}

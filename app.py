@@ -278,15 +278,6 @@ def joinAGroup(code):
     else:
         print("Invalid code. Please try again.")
 
-def getUserInGroup(str):
-    global users, groups
-
-    usersInGroup = []
-    for user in users:
-        if user["group"] == str:
-            usersInGroup.append(user)
-    return usersInGroup
-
 def callAPI(place, time):
 
   co = cohere.Client('XN7jFJbkwwW4DAvC2QGNn7L9TGbYOSBjFF6W5lEB') # This is your trial API key
@@ -310,7 +301,7 @@ def callAPI(place, time):
 
   for i in range(len(plan)):
       if plan[i:i+5] == '\nDay ':
-          dayPlans.append(plan[start:i-2])
+          dayPlans.append(plan[start:i-1])
           start = i
 
   dayPlans.append(plan[start:])
@@ -336,8 +327,17 @@ def context_processor():
             group_name = groups[code]
             return group_name
         return "no group found"
+    
+    def getUsersInGroup(code):
+        global users, groups
 
-    return dict(isLoggedIn=isLoggedIn, users=users, groups=groups, currentUser=currentUser, getGroupName=getGroupName)
+        usersInGroup = []
+        for user in users:
+            if user["group"] == code:
+                usersInGroup.append(user)
+        return usersInGroup
+
+    return dict(isLoggedIn=isLoggedIn, users=users, groups=groups, currentUser=currentUser, getGroupName=getGroupName, getUsersInGroup=getUsersInGroup)
 
 if __name__ == "__main__":
     app.run(debug=True)

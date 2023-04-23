@@ -15,17 +15,17 @@ app.secret_key = "thisisasecretkeydonttellanyone"
 users = []
 
 user1 = {
-	"email": "user1@gmail.com",
-    "name": "User1",
-    "prefs": ["cityhustler", "socialmediacrazy", "lovebirds", "naturelover"],
+	"email": "john@gmail.com",
+    "name": "John Doe",
+    "prefs": ["cityhustler", "socialmediacrazy", "lovebirds"],
     "trips": ["Lisbon", "New York City", "Tokyo"],
 	"password": "test123",
     "group": ""
 }
 
 user2 = {
-	"email": "user2@gmail.com",
-    "name": "User2",
+	"email": "jane@gmail.com",
+    "name": "Jane Doe",
     "prefs": ["cityhustler", "socialmediacrazy"],
     "trips": ["Chicago", "Seoul"],
 	"password": "test123",
@@ -33,9 +33,72 @@ user2 = {
 }
 
 user3 = {
-	"email": "user3@gmail.com",
-    "name": "User3",
-    "prefs": ["cityhustler", "socialmediacrazy"],
+	"email": "john@gmail.com",
+    "name": "John Smith",
+    "prefs": ["socialmediacrazy"],
+    "trips": [],
+	"password": "test123",
+    "group": ""
+}
+
+user4 = {
+	"email": "brady@gmail.com",
+    "name": "Tom Brady",
+    "prefs": ["cityhustler", "socialmediacrazy", "naturelover"],
+    "trips": [],
+	"password": "test123",
+    "group": "YWQTL"
+}
+
+user5 = {
+	"email": "jim@gmail.com",
+    "name": "Jim Carrey",
+    "prefs": ["typicaltraveller", "foodie"],
+    "trips": [],
+	"password": "test123",
+    "group": ""
+}
+
+user6 = {
+	"email": "britney@gmail.com",
+    "name": "Britney Spears",
+    "prefs": ["nightowl", "lovebirds"],
+    "trips": [],
+	"password": "test123",
+    "group": "YWQTL"
+}
+
+user7 = {
+	"email": "oprah@gmail.com",
+    "name": "Oprah Winfrey",
+    "prefs": [],
+    "trips": [],
+	"password": "test123",
+    "group": ""
+}
+
+user8 = {
+	"email": "joe@gmail.com",
+    "name": "Joe Biden",
+    "prefs": ["thrillers", "lonewolf", "foodie"],
+    "trips": [],
+	"password": "test123",
+    "group": "YWQTL"
+}
+
+user9 = {
+	"email": "bill@gmail.com",
+    "name": "Bill Gates",
+    "prefs": ["nightowl", "lonewolf"],
+    "trips": [],
+	"password": "test123",
+    "group": ""
+}
+
+user10 = {
+	"email": "brad@gmail.com",
+    "name": "Brad Pitt",
+    "prefs": ["cityhustler", "thrillers"],
     "trips": [],
 	"password": "test123",
     "group": ""
@@ -44,6 +107,13 @@ user3 = {
 users.append(user1)
 users.append(user2)
 users.append(user3)
+users.append(user4)
+users.append(user5)
+users.append(user6)
+users.append(user7)
+users.append(user8)
+users.append(user9)
+users.append(user10)
 
 groups = {"YWQTL": "Vacationers"}
 
